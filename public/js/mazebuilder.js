@@ -24,17 +24,21 @@ function getNeighbors(x,y){
 	}
 }
 function getLocalNeighbors(x,y){
-	if (map[y-1][x] >0){
-		neighbors.push({x:x,y:y-1})
+	if (map[y][x+1] > 0){
+		neighbors.push({x:x+1,y:y})
+		map[y][x+1] = -1
 	}
-	if (map[y+1][x] >0){
+	if (map[y+1][x] > 0){
 		neighbors.push({x:x,y:y+1})
+		map[y+1][x] = -1
 	}
 	if (map[y][x-1] > 0){
 		neighbors.push({x:x-1,y:y})
+		map[y][x-1] = -1
 	}
-	if (map[y][x+1] > 0){
-		neighbors.push({x:x+1,y:y})
+	if (map[y-1][x] >0){
+		neighbors.push({x:x,y:y-1})
+		map[y-1][x] = -1
 	}
 }
 
@@ -174,7 +178,7 @@ function createEntrances(){
 	}
 	let locationX = 1;
 	let locationY = 1;
-	paintMapSpace(locationX,locationY)
+	paintMapSpace(locationX,locationY,'#f2e7c7')
 	map[locationY][locationX] = -1
 	neighbors = []
 	getLocalNeighbors(locationX,locationY)
@@ -185,8 +189,7 @@ function floodFill(){
 	// console.log(neighbors)
 	let position;
 	if (neighbors.length > 0){
-		position = neighbors.pop();
-		map[position.y][position.x] = -1
+		position = neighbors.shift()
 		getLocalNeighbors(position.x,position.y)
 		paintMapSpace(position.x,position.y,'#f2e7c7')
 	} else{
