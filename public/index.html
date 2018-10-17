@@ -1,0 +1,142 @@
+<html>
+	<head>
+		<title>Maze Builder</title>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<div id="canvasHolder" class="half">
+			<canvas id="theCanvas" width="610" height="570"></canvas>
+		</div>
+		<div id="controls" class="half">
+			<div class="full range-input-group">
+				<div class="input-group-border">
+					<label class="antero-label">Rooms to Attempt: </label><label class="data-label" id="rooms_val">600</label>
+					<input type="range" min="400" max="800" step="20" class="range-input" id="rooms"  title="Attempts" value="600">
+				</div>
+			</div>
+			<div class="half range-input-group">
+				<div class="input-group-border">
+					<label class="antero-label">Min Width: </label><label class="data-label" id="minX_val">3</label>
+					<input type="range" min="3" max="15" step="2" class="range-input" id="minX" title="Room Width" value="3">
+				</div>
+			</div>
+			<div class="half range-input-group">
+				<div class="input-group-border">
+					<label class="antero-label">Min Height: </label><label class="data-label" id="minY_val">3</label>
+					<input type="range" min="3" max="15" step="2" class="range-input" id="minY" title="Room Height" value="3">
+				</div>
+			</div>
+			<div class="half range-input-group">
+				<div class="input-group-border">
+					<label class="antero-label">Max Width: </label><label class="data-label" id="roomX_val">9</label>
+					<input type="range" min="3" max="15" step="2" class="range-input" id="roomX" title="Room Width" value="9">
+				</div>
+			</div>
+			<div class="half range-input-group">
+				<div class="input-group-border">
+					<label class="antero-label">Max Height: </label><label class="data-label" id="roomY_val">9</label>
+					<input type="range" min="3" max="15" step="2" class="range-input" id="roomY" title="Room Height" value="9">
+				</div>
+			</div>
+			<div>
+				<button onClick="initialize()">Rebuild</button>
+				<button onClick="stop()">Stop</button>
+			</div>
+			<div>
+				<p id="info-message"></p>
+			</div>
+		</div>
+		<script src='js/roombuilding.js'></script>
+		<script src='js/objects.js'></script>
+		<script src='js/mazebuilder.js'></script>
+		<script>
+			// Map Variables
+			var map = []
+			var displayed = []
+			var objectCounter = 1;
+
+			var wallHash = {}
+
+			function updateDisplayed(){
+				displayed = []
+				let cc = camera.getCoordinates()
+				for (var i = cc.y; i < cc.y + 13; i++){
+					displayed.push(map[i].slice(cc.x,cc.x+13))
+				}
+			}
+
+			var gHeight = 10
+			var gWidth = 10
+
+			var c = document.getElementById('theCanvas')
+			var ctx = c.getContext('2d')
+
+			var cWidth = c.width
+			var cHeight = c.height
+
+			document.getElementById('rooms').addEventListener('change',(e)=>{
+				rooms._limit = Number(e.target.value)
+				document.getElementById('rooms_val').innerHTML = e.target.value
+			})
+			document.getElementById('minX').addEventListener('change',(e)=>{
+				rooms._xMin = Number(e.target.value)
+				if(rooms._xMin > rooms._xMax){
+					rooms._xMin = rooms._xMax
+					e.target.value = rooms._xMax
+					document.getElementById('info-message').innerHTML = "The minimum can't exceed the maximum!"
+				} else {
+					document.getElementById('info-message').innerHTML = ''
+				}
+				document.getElementById('minX_val').innerHTML = rooms._xMin
+			})
+			document.getElementById('minY').addEventListener('change',(e)=>{
+				rooms._yMin = Number(e.target.value)
+				if(rooms._yMin > rooms._yMax){
+					rooms._yMin = rooms._yMax
+					e.target.value = rooms._yMax
+					document.getElementById('info-message').innerHTML = "The minimum can't exceed the maximum!"
+				} else {
+					document.getElementById('info-message').innerHTML = ''
+				}
+				document.getElementById('minY_val').innerHTML = rooms._yMin
+			})
+			document.getElementById('roomX').addEventListener('change',(e)=>{
+				rooms._xMax = Number(e.target.value)
+				if(rooms._xMax < rooms._xMin){
+					rooms._xMax = rooms._xMin
+					e.target.value = rooms._xMin
+					document.getElementById('info-message').innerHTML = "The maximum can't be less than the minimum!"
+				} else{
+					document.getElementById('info-message').innerHTML = ""
+				}
+				document.getElementById('roomX_val').innerHTML = rooms._xMax
+			})
+			document.getElementById('roomY').addEventListener('change',(e)=>{
+				rooms._yMax = Number(e.target.value)
+				if(rooms._yMax < rooms._yMin){
+					rooms._yMax = rooms._yMin
+					e.target.value = rooms._yMin
+					document.getElementById('info-message').innerHTML = "The maximum can't be less than the minimum!"
+				} else{
+					document.getElementById('info-message').innerHTML = ''
+				}
+				document.getElementById('roomY_val').innerHTML = rooms._yMax
+			})
+
+			function random(min,max){
+				return Math.floor(min + Math.random()*(max-min+1))
+			}
+
+			function initialize(){
+				clearCanvas()
+				wallHash = {};
+				prepareGrid(spawnRooms)
+			}
+
+	
+			function stop(){
+				clearInterval(timer)
+			}
+		</script>
+	</body>
+</html>
