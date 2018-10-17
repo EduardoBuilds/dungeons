@@ -3,3 +3,4 @@ public/fonts/*
 node_modules/*
 resources/*
 .DS_Store
+mazes.html
