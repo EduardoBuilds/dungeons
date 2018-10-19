@@ -29,6 +29,9 @@ button:active, button:focus, button:active:focus,.form-input:active,.form-input:
 button:active{
 	background:#333;
 }
+a,a:visited{
+	color:#ccc;
+}
 
 .form-input{
 	background-color:transparent;
@@ -100,9 +103,11 @@ button:active{
 		display:inline-block;
 		float:left;
 		width:48.5%;
+		overflow: auto;
 	}
 	.full{
 		width:98.5%;
+		overflow: auto;
 	}
 	
 }

@@ -8,61 +8,61 @@
 			<canvas id="theCanvas" width="610" height="570"></canvas>
 		</div>
 		<div id="controls" class="half">
-			<div class="full range-input-group">
-				<div class="input-group-border">
-					<label class="antero-label">Rooms to Attempt: </label><label class="data-label" id="rooms_val">600</label>
-					<input type="range" min="400" max="800" step="20" class="range-input" id="rooms"  title="Attempts" value="600">
+			<div id="settings" class="full">
+				<div class="full range-input-group">
+					<div class="input-group-border">
+						<label class="antero-label">Rooms to Attempt: </label><label class="data-label" id="rooms_val">600</label>
+						<input type="range" min="400" max="800" step="20" class="range-input" id="rooms"  title="Attempts" value="600">
+					</div>
+				</div>
+				<div class="half range-input-group">
+					<div class="input-group-border">
+						<label class="antero-label">Min Width: </label><label class="data-label" id="minX_val">3</label>
+						<input type="range" min="3" max="15" step="2" class="range-input" id="minX" title="Room Width" value="3">
+					</div>
+				</div>
+				<div class="half range-input-group">
+					<div class="input-group-border">
+						<label class="antero-label">Min Height: </label><label class="data-label" id="minY_val">3</label>
+						<input type="range" min="3" max="15" step="2" class="range-input" id="minY" title="Room Height" value="3">
+					</div>
+				</div>
+				<div class="half range-input-group">
+					<div class="input-group-border">
+						<label class="antero-label">Max Width: </label><label class="data-label" id="roomX_val">9</label>
+						<input type="range" min="3" max="15" step="2" class="range-input" id="roomX" title="Room Width" value="9">
+					</div>
+				</div>
+				<div class="half range-input-group">
+					<div class="input-group-border">
+						<label class="antero-label">Max Height: </label><label class="data-label" id="roomY_val">9</label>
+						<input type="range" min="3" max="15" step="2" class="range-input" id="roomY" title="Room Height" value="9">
+					</div>
+				</div>
+				<div>
+					<button onClick="initialize()">Rebuild</button>
+				</div>
+				<div>
+					<p id="info-message"></p>
 				</div>
 			</div>
-			<div class="half range-input-group">
-				<div class="input-group-border">
-					<label class="antero-label">Min Width: </label><label class="data-label" id="minX_val">3</label>
-					<input type="range" min="3" max="15" step="2" class="range-input" id="minX" title="Room Width" value="3">
-				</div>
-			</div>
-			<div class="half range-input-group">
-				<div class="input-group-border">
-					<label class="antero-label">Min Height: </label><label class="data-label" id="minY_val">3</label>
-					<input type="range" min="3" max="15" step="2" class="range-input" id="minY" title="Room Height" value="3">
-				</div>
-			</div>
-			<div class="half range-input-group">
-				<div class="input-group-border">
-					<label class="antero-label">Max Width: </label><label class="data-label" id="roomX_val">9</label>
-					<input type="range" min="3" max="15" step="2" class="range-input" id="roomX" title="Room Width" value="9">
-				</div>
-			</div>
-			<div class="half range-input-group">
-				<div class="input-group-border">
-					<label class="antero-label">Max Height: </label><label class="data-label" id="roomY_val">9</label>
-					<input type="range" min="3" max="15" step="2" class="range-input" id="roomY" title="Room Height" value="9">
-				</div>
-			</div>
-			<div>
-				<button onClick="initialize()">Rebuild</button>
-			</div>
-			<div>
-				<p id="info-message"></p>
-			</div>
+			<!-- <div id="screen" class="full">
+				<canvas id="theOtherCanvas" height="260" width="260"></canvas>
+			</div> -->
+		</div>
+		<div class="full">
+			<p>Check out how it works by reading <a href="https://eduardobuilds.wordpress.com/2018/10/17/building-a-maze-a-long-overdue-revisit/" target="_blank">this</a>! If you liked it, consider giving a like to my <a href="https://www.facebook.com/eduardobuilds/" target="_blank">Facebook</a> page!</p>
 		</div>
 		<script src='js/roombuilding.js'></script>
 		<script src='js/objects.js'></script>
 		<script src='js/mazebuilder.js'></script>
+		<script src="js/camera.js"></script>
 		<script>
 			// Map Variables
 			var map = []
-			var displayed = []
+			
 			var objectCounter = 1;
-
 			var wallHash = {}
-
-			function updateDisplayed(){
-				displayed = []
-				let cc = camera.getCoordinates()
-				for (var i = cc.y; i < cc.y + 13; i++){
-					displayed.push(map[i].slice(cc.x,cc.x+13))
-				}
-			}
 
 			var gHeight = 10
 			var gWidth = 10
@@ -127,6 +127,7 @@
 			}
 
 			function initialize(){
+				// camera.initialize()
 				clearCanvas()
 				wallHash = {};
 				prepareGrid(spawnRooms)

@@ -116,17 +116,3 @@ function clearCanvas(){
 }
 
 
-function drawGrid(){
-	// ctx.strokeStyle='#F79916'
-	ctx.strokeStyle = '#AAAAAA'
-	for (let i = 1; i < cHeight/gHeight; i++){
-		for (let j = 1; j < cWidth/gWidth; j++){
-			ctx.moveTo(j*gWidth,0)
-			ctx.lineTo(j*gWidth,cHeight)
-			ctx.moveTo(0,i*gHeight)
-			ctx.lineTo(cWidth,i*gHeight)
-		}
-	}
-	ctx.stroke()
-	paintMe()
-}

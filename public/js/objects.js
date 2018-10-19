@@ -1,21 +1,21 @@
 var tileTypes = [
-				{
-					//Wall
-					passable:false,
-					color:'#000000'
-				},
-				{
-					//Corridor
-					passable:false,
-					color:'#ffffff'
-				},
-				{
-					//Water
-					passable:false,
-					color:'#2244CC'
+	{
+		//Wall
+		passable:false,
+		color:'#000000'
+	},
+	{
+		//Corridor
+		passable:false,
+		color:'#ffffff'
+	},
+	{
+		//Water
+		passable:false,
+		color:'#2244CC'
 
-				}
-			]
+	}
+]
 
 var rooms = {
 	_limit:600,
@@ -45,13 +45,5 @@ var colorPicker =  {
 	},
 	resetCounter:function(){
 		this.counter = 0
-	}
-} 
-
-var camera = {
-	_x:0,
-	_y:0,
-	getCoordinates:function(){
-		return {x:this._x,y:this._y}
 	}
 }

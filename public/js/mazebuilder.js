@@ -42,42 +42,42 @@ function getLocalNeighbors(x,y){
 	}
 }
 
-function paintMapSpace(x,y,color=null){
+function paintMapSpace(x,y,width,height,context,color=null){
 	if (color === null){
-		ctx.fillStyle=colorPicker.getCorridorColor();
+		context.fillStyle=colorPicker.getCorridorColor();
 	} else {
-		ctx.fillStyle=color
+		context.fillStyle=color
 	}
-	ctx.fillRect(x*gWidth,y*gHeight,gWidth,gHeight);
+	context.fillRect(x*width,y*height,width,height);
 }
 
 function paintCorridor(origin,dir){
 	if (dir == 'l'){
-		paintMapSpace(origin.x-1,origin.y)
+		paintMapSpace(origin.x-1,origin.y,gWidth,gHeight,ctx)
 		map[origin.y][origin.x-1] = objectCounter
-		paintMapSpace(origin.x-2,origin.y)
+		paintMapSpace(origin.x-2,origin.y,gWidth,gHeight,ctx)
 		map[origin.y][origin.x-2] = objectCounter
 	}
 	if (dir == 'r'){
-		paintMapSpace(origin.x+1,origin.y)
+		paintMapSpace(origin.x+1,origin.y,gWidth,gHeight,ctx)
 		map[origin.y][origin.x+1] = objectCounter
 		if (origin.x+2 != map[0].length-1){
-			paintMapSpace(origin.x+2,origin.y)
+			paintMapSpace(origin.x+2,origin.y,gWidth,gHeight,ctx)
 			map[origin.y][origin.x+2] = objectCounter
 		}
 	}
 	if (dir == 'd'){
-		paintMapSpace(origin.x,origin.y+1)
+		paintMapSpace(origin.x,origin.y+1,gWidth,gHeight,ctx)
 		map[origin.y+1][origin.x] = objectCounter
 		if (origin.y+2 != map.length-1){
-			paintMapSpace(origin.x,origin.y+2)
+			paintMapSpace(origin.x,origin.y+2,gWidth,gHeight,ctx)
 			map[origin.y+2][origin.x] = objectCounter
 		}
 	}
 	if (dir == 'u'){
-		paintMapSpace(origin.x,origin.y-1)
+		paintMapSpace(origin.x,origin.y-1,gWidth,gHeight,ctx)
 		map[origin.y-1][origin.x] = objectCounter
-		paintMapSpace(origin.x,origin.y-2)
+		paintMapSpace(origin.x,origin.y-2,gWidth,gHeight,ctx)
 		map[origin.y-2][origin.x] = objectCounter
 	}
 }
@@ -85,7 +85,7 @@ function paintCorridor(origin,dir){
 function runConstruction(x,y){
 	neighbors = []
 	map[y][x] = objectCounter;
-	paintMapSpace(x,y)
+	paintMapSpace(x,y,gWidth,gHeight,ctx)
 	getNeighbors(x,y)
 	timer = setInterval(function(){buildMaze()},4)
 }
@@ -173,12 +173,12 @@ function createEntrances(){
 	let keys = Object.keys(wallHash)
 	for (let i = 0; i < keys.length; i++){
 		let chosen = wallHash[keys[i]][random(0,wallHash[keys[i]].length-1)]
-		paintMapSpace(chosen.x,chosen.y,'#f2e7c7')
+		paintMapSpace(chosen.x,chosen.y,gWidth,gHeight,ctx,'#f2e7c7')
 		map[chosen.y][chosen.x] = 1
 	}
 	let locationX = 1;
 	let locationY = 1;
-	paintMapSpace(locationX,locationY,'#f2e7c7')
+	paintMapSpace(locationX,locationY,gWidth,gHeight,ctx,'#f2e7c7')
 	map[locationY][locationX] = -1
 	neighbors = []
 	getLocalNeighbors(locationX,locationY)
@@ -191,9 +191,10 @@ function floodFill(){
 	if (neighbors.length > 0){
 		position = neighbors.shift()
 		getLocalNeighbors(position.x,position.y)
-		paintMapSpace(position.x,position.y,'#f2e7c7')
+		paintMapSpace(position.x,position.y,gWidth,gHeight,ctx,'#f2e7c7')
 	} else{
 		clearInterval(timer)
+		// camera.drawDisplayed()
 		console.log('Yippidy Done, dude')
 	}
 }
