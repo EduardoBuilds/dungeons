@@ -66,7 +66,7 @@ function spawnRooms(){
 		if (builtRooms.length < 1){
 			//Start queue
 			builtRooms.push(r)
-			paintRoom(r)
+			// paintRoom(r)
 			mapRoom(r)
 		} else {
 			//Test for collision
@@ -78,7 +78,7 @@ function spawnRooms(){
 			}
 			if(!collision) {
 				builtRooms.push(r)
-				paintRoom(r)
+				// paintRoom(r)
 				mapRoom(r)
 			}	
 		}
@@ -99,13 +99,6 @@ function prepareGrid(callback){
 		}
 	}
 	callback()
-}
-
-function paintMe(){
-	ctx.fillStyle='#66AA33';
-	ctx.beginPath()
-	ctx.arc(6*gWidth+(0.5*gWidth),6*gHeight+(0.5*gHeight),(0.25*gHeight),0,2*Math.PI)
-	ctx.fill()
 }
 
 function clearCanvas(){

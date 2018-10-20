@@ -53,31 +53,31 @@ function paintMapSpace(x,y,width,height,context,color=null){
 
 function paintCorridor(origin,dir){
 	if (dir == 'l'){
-		paintMapSpace(origin.x-1,origin.y,gWidth,gHeight,ctx)
+		// paintMapSpace(origin.x-1,origin.y,gWidth,gHeight,ctx)
 		map[origin.y][origin.x-1] = objectCounter
-		paintMapSpace(origin.x-2,origin.y,gWidth,gHeight,ctx)
+		// paintMapSpace(origin.x-2,origin.y,gWidth,gHeight,ctx)
 		map[origin.y][origin.x-2] = objectCounter
 	}
 	if (dir == 'r'){
-		paintMapSpace(origin.x+1,origin.y,gWidth,gHeight,ctx)
+		// paintMapSpace(origin.x+1,origin.y,gWidth,gHeight,ctx)
 		map[origin.y][origin.x+1] = objectCounter
 		if (origin.x+2 != map[0].length-1){
-			paintMapSpace(origin.x+2,origin.y,gWidth,gHeight,ctx)
+			// paintMapSpace(origin.x+2,origin.y,gWidth,gHeight,ctx)
 			map[origin.y][origin.x+2] = objectCounter
 		}
 	}
 	if (dir == 'd'){
-		paintMapSpace(origin.x,origin.y+1,gWidth,gHeight,ctx)
+		// paintMapSpace(origin.x,origin.y+1,gWidth,gHeight,ctx)
 		map[origin.y+1][origin.x] = objectCounter
 		if (origin.y+2 != map.length-1){
-			paintMapSpace(origin.x,origin.y+2,gWidth,gHeight,ctx)
+			// paintMapSpace(origin.x,origin.y+2,gWidth,gHeight,ctx)
 			map[origin.y+2][origin.x] = objectCounter
 		}
 	}
 	if (dir == 'u'){
-		paintMapSpace(origin.x,origin.y-1,gWidth,gHeight,ctx)
+		// paintMapSpace(origin.x,origin.y-1,gWidth,gHeight,ctx)
 		map[origin.y-1][origin.x] = objectCounter
-		paintMapSpace(origin.x,origin.y-2,gWidth,gHeight,ctx)
+		// paintMapSpace(origin.x,origin.y-2,gWidth,gHeight,ctx)
 		map[origin.y-2][origin.x] = objectCounter
 	}
 }
@@ -87,7 +87,8 @@ function runConstruction(x,y){
 	map[y][x] = objectCounter;
 	paintMapSpace(x,y,gWidth,gHeight,ctx)
 	getNeighbors(x,y)
-	timer = setInterval(function(){buildMaze()},4)
+	buildMaze()
+	// timer = setInterval(function(){buildMaze()},4)
 }
 
 function allNeighborsAreWalls(x,y){
@@ -182,7 +183,8 @@ function createEntrances(){
 	map[locationY][locationX] = -1
 	neighbors = []
 	getLocalNeighbors(locationX,locationY)
-	timer = setInterval(()=>floodFill(),4)
+	// timer = setInterval(()=>floodFill(),4)
+	floodFill()
 }
 
 function floodFill(){
@@ -192,9 +194,10 @@ function floodFill(){
 		position = neighbors.shift()
 		getLocalNeighbors(position.x,position.y)
 		paintMapSpace(position.x,position.y,gWidth,gHeight,ctx,'#f2e7c7')
+		floodFill()
 	} else{
-		clearInterval(timer)
-		// camera.drawDisplayed()
+		// clearInterval(timer)
+		camera.drawDisplayed()
 		console.log('Yippidy Done, dude')
 	}
 }
@@ -212,8 +215,9 @@ function buildMaze(){
 			getNeighbors(position.x,position.y)
 			paintCorridor(position.origin,position.dir)
 		}
+		buildMaze()
 	} else {
-		clearInterval(timer)
+		// clearInterval(timer)
 		combMapForValidStart()
 	}
 }

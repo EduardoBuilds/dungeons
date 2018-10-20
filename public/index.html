@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<div id="canvasHolder" class="half">
-			<canvas id="theCanvas" width="610" height="570"></canvas>
+			<canvas id="theOtherCanvas" height="520" width="520"></canvas>
 		</div>
 		<div id="controls" class="half">
 			<div id="settings" class="full">
@@ -46,9 +46,9 @@
 					<p id="info-message"></p>
 				</div>
 			</div>
-			<!-- <div id="screen" class="full">
-				<canvas id="theOtherCanvas" height="260" width="260"></canvas>
-			</div> -->
+			<div id="screen" class="full">
+				<canvas id="theCanvas" width="310" height="290"></canvas>
+			</div>
 		</div>
 		<div class="full">
 			<p>Check out how it works by reading <a href="https://eduardobuilds.wordpress.com/2018/10/17/building-a-maze-a-long-overdue-revisit/" target="_blank">this</a>! If you liked it, consider giving a like to my <a href="https://www.facebook.com/eduardobuilds/" target="_blank">Facebook</a> page!</p>
@@ -57,6 +57,7 @@
 		<script src='js/objects.js'></script>
 		<script src='js/mazebuilder.js'></script>
 		<script src="js/camera.js"></script>
+		<script src="js/player.js"></script>
 		<script>
 			// Map Variables
 			var map = []
@@ -127,12 +128,37 @@
 			}
 
 			function initialize(){
-				// camera.initialize()
+				camera.initialize()
+				colorPicker.resetCounter()
 				clearCanvas()
 				wallHash = {};
 				prepareGrid(spawnRooms)
 			}
 
+			document.onkeydown = (e)=>{
+				if (e.isTrusted){
+					switch(e.keyCode){
+						case 37:
+							player.moveLeft();
+							e.preventDefault();
+						break;
+						case 38:
+							player.moveUp();
+							e.preventDefault();
+						break;
+						case 39:
+							player.moveRight();
+							e.preventDefault();
+						break;
+						case 40:
+							player.moveDown();
+							e.preventDefault();
+						break;
+						default:
+						break;
+					}
+				}
+			}
 	
 			function stop(){
 				clearInterval(timer)
